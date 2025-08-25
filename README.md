@@ -62,3 +62,29 @@ $env:WHISPER_MODEL="small"  # options: tiny, base, small, medium, large-v2
 $env:WHISPER_COMPUTE_TYPE="auto"  # or float16/int8 depending on hardware
 ```
 Then start uvicorn.
+
+## Email & Webhook
+
+Add participant:
+```
+Invoke-RestMethod -Method Post -Uri 'http://127.0.0.1:8000/api/v1/email/{meeting_id}' -ContentType 'application/json' -Body '{"email":"user@example.com","name":"User"}'
+```
+
+List participants:
+```
+Invoke-RestMethod -Method Get -Uri 'http://127.0.0.1:8000/api/v1/email/{meeting_id}'
+```
+
+Send test webhook (requires `N8N_WEBHOOK_URL`):
+```
+$env:N8N_WEBHOOK_URL="https://your-n8n-host/webhook/xyz"
+Invoke-RestMethod -Method Post -Uri 'http://127.0.0.1:8000/api/v1/webhook/test/{meeting_id}'
+```
+
+## Tests
+
+Run backend tests:
+```
+cd backend
+pytest -q
+```

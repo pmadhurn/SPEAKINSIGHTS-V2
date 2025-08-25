@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import VideoPlayer from '../components/video/VideoPlayer'
 import VideoTimeline from '../components/video/VideoTimeline'
+import EmailCollector from '../components/email/EmailCollector'
 
 type Meeting = {
 	id: number
@@ -114,6 +115,15 @@ const MeetingDetail = () => {
 					setSpeakers(spk)
 					setSegments(segs)
 				}}>Generate placeholder diarization</button>
+			</div>
+			<div style={{ marginTop: 16 }}>
+				<EmailCollector meetingId={Number(id)} />
+				<div style={{ marginTop: 8 }}>
+					<button onClick={async () => {
+						await fetch(`${base}/api/v1/webhook/test/${id}`, { method: 'POST' })
+						alert('Webhook sent (check server logs / n8n)')
+					}}>Send Test Webhook</button>
+				</div>
 			</div>
 		</div>
 	)
