@@ -75,6 +75,7 @@ const MeetingDetail = () => {
 			<p><Link to="/meetings">← Back</Link></p>
 			<h2>{meeting.title}</h2>
 			<p>Status: <strong>{meeting.status}</strong></p>
+			<p><a href={`/analytics/${id}`}>View Analytics</a></p>
 			<div style={{ display: 'flex', gap: 12, margin: '12px 0' }}>
 				<button onClick={extract}>Extract audio</button>
 				<button onClick={transcribe}>Transcribe (placeholder)</button>
@@ -84,7 +85,11 @@ const MeetingDetail = () => {
 					<h3>Video</h3>
 					<VideoPlayer src={`${base}/uploads/${meeting.file_path.split('/').pop()}`} currentTime={seekTo} />
 					<div style={{ marginTop: 8 }}>
-						<VideoTimeline segments={(segments || []).map(s => ({...s, speaker_label: (speakers || []).find(sp => sp.id === s.speaker_id)?.speaker_label }))} onSeek={(t) => setSeekTo(t)} />
+						<VideoTimeline
+							segments={(segments || []).map(s => ({...s, speaker_label: (speakers || []).find(sp => sp.id === s.speaker_id)?.speaker_label }))}
+							onSeek={(t) => setSeekTo(t)}
+							currentTime={seekTo}
+						/>
 					</div>
 				</div>
 			)}

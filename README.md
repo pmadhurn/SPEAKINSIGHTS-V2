@@ -63,6 +63,14 @@ $env:WHISPER_COMPUTE_TYPE="auto"  # or float16/int8 depending on hardware
 ```
 Then start uvicorn.
 
+### WhisperX diarization (scaffold)
+
+Enable whisperx diarization placeholder via env:
+```
+$env:USE_WHISPERX="true"
+```
+Then calling `POST /api/v1/speakers/{meeting_id}/diarize` will use the WhisperX path (scaffolded) if enabled, else fallback diarization.
+
 ## Email & Webhook
 
 Add participant:
@@ -87,4 +95,21 @@ Run backend tests:
 ```
 cd backend
 pytest -q
+```
+
+### Frontend E2E (Cypress)
+
+Start dev server:
+```
+cd frontend
+npm run dev
+```
+In another terminal:
+```
+cd frontend
+npm run cy:open
+```
+Or headless:
+```
+npm run cy:run
 ```

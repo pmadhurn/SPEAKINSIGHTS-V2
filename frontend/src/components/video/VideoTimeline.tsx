@@ -12,13 +12,14 @@ type Props = {
 	onSeek: (time: number) => void
 	width?: number
 	height?: number
+  currentTime?: number
 }
 
 const colors = [
 	'#4f46e5', '#16a34a', '#f59e0b', '#ef4444', '#06b6d4', '#a855f7', '#84cc16', '#f43f5e'
 ]
 
-const VideoTimeline = ({ segments, onSeek, width = 640, height = 24 }: Props) => {
+const VideoTimeline = ({ segments, onSeek, width = 640, height = 24, currentTime }: Props) => {
 	if (!segments || segments.length === 0) return null
 	const duration = Math.max(...segments.map(s => s.end_time)) || 1
 	const speakerIdToColor = new Map<number, string>()
@@ -35,11 +36,12 @@ const VideoTimeline = ({ segments, onSeek, width = 640, height = 24 }: Props) =>
 				const segDuration = Math.max(0, seg.end_time - seg.start_time)
 				const flexGrow = segDuration / duration
 				const color = speakerIdToColor.get(seg.speaker_id) as string
+				const isActive = typeof currentTime === 'number' && currentTime >= seg.start_time && currentTime < seg.end_time
 				return (
 					<div key={seg.id}
 						onClick={() => onSeek(seg.start_time)}
-						title={`[${seg.start_time.toFixed(2)}-${seg.end_time.toFixed(2)}] ${seg.text}`}
-						style={{ flexGrow, background: color, cursor: 'pointer' }}
+						title={`${seg.speaker_label || 'Speaker'} • ${seg.start_time.toFixed(2)}s → ${seg.end_time.toFixed(2)}s\n${seg.text}`}
+						style={{ flexGrow, background: color, cursor: 'pointer', outline: isActive ? '3px solid #111' : 'none', opacity: isActive ? 1 : 0.85 }}
 					/>
 				)
 			})}

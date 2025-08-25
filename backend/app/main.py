@@ -7,6 +7,7 @@ from app.api.v1.video import router as video_router
 from app.api.v1.speakers import router as speakers_router
 from app.api.v1.email import router as email_router
 from app.api.v1.webhook import router as webhook_router
+from app.api.v1.analytics import router as analytics_router
 
 
 def create_app() -> FastAPI:
@@ -27,6 +28,7 @@ def create_app() -> FastAPI:
 	app.include_router(speakers_router)
 	app.include_router(email_router)
 	app.include_router(webhook_router)
+	app.include_router(analytics_router)
 
 	# Serve uploaded files for playback
 	app.mount("/uploads", StaticFiles(directory="uploads"), name="uploads")
